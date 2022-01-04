@@ -44,11 +44,13 @@
   </el-table>
   <div class="el_pagination">
     <el-pagination
+      :page-sizes="[5, 10, 20, 50, 100]"
       background
-      layout="prev, pager, next"
+      layout="sizes, prev, pager, next"
       :total="totalSize"
-      :page-count="Math.ceil(totalSize / 10)"
+      :page-count="Math.ceil(totalSize / currentPageSize)"
       @current-change="paginationgetData"
+      @size-change="handleSizeChange"
     ></el-pagination>
   </div>
   <goods-dialog
@@ -138,16 +140,22 @@ const getData = async (page: number, opeation: number) => {
   }
 }
 
+let currentPageSize = ref(10)
 const getSpecificData = (page: number, res: AxiosResponse<any, any>) => {
   if (res.status === 200) {
     totalSize.value = res.data.length
-    tableData.value = res.data.slice((page - 1) * 10, (page - 1) * 10 + 9)
+    tableData.value = res.data.slice((page - 1) * currentPageSize.value, (page - 1) * currentPageSize.value + currentPageSize.value)
   }
 }
 
-const paginationgetData =  (page: number) => {
+const paginationgetData = (page: number) => {
   currentPage.value = page
   getData(page, currentOpration.value)
+}
+
+const handleSizeChange = (size: number) => {
+  currentPageSize.value = size
+  getData(currentPage.value, currentOpration.value)
 }
 
 // 查询条件重置
