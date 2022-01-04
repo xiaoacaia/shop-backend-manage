@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhang.goods_manage.mapper.GoodsListMapper">
+
+    <resultMap id="GoodsList" type="com.zhang.goods_manage.pojo.GoodsList">
+        <result column="id" jdbcType="INTEGER" property="id"/>
+        <result column="goods_id" jdbcType="INTEGER" property="goodsId"/>
+        <result column="goods_name" jdbcType="VARCHAR" property="goodsName"/>
+        <result column="goods_type" jdbcType="INTEGER" property="goodsType"/>
+        <result column="category_name" jdbcType="INTEGER" property="categoryName"/>
+        <result column="goods_price" jdbcType="INTEGER" property="goodsPrice"/>
+        <result column="goods_stock" jdbcType="INTEGER" property="goodsStock"/>
+    </resultMap>
+
+    <select id="getAllGoodsList" resultMap="GoodsList">
+        select g.*, c.category_name from goods_list g, goods_category c
+        where g.goods_type = c.id
+    </select>
+
+    <select id="getGoodsListById" resultMap="GoodsList" parameterType="com.zhang.goods_manage.pojo.GoodsList">
+         select * from goods_list where goods_type=#{goodsType}
+    </select>
+
+<!--    随机数据测试
+delimiter //                            #定义标识符为双斜杠
+drop procedure if exists test;          #如果存在test存储过程则删除
+create procedure test()                 #创建无参存储过程,名称为test
+begin
+		declare i int;                      #申明变量
+		set i = 0;                          #变量赋值
+		while i < 500 do                     #结束循环的条件: 当i大于10时跳出while循环
+				insert into goods_list (goods_id, goods_name, goods_type, goods_price, goods_stock)
+values (rand()*9999999, substring(md5(rand()), 1, 10), 5, rand()*10000, rand()*100);    #往test表添加数据
+				set i = i + 1;                  #循环一次,i加一
+		end while;                          #结束while循环
+		select * from test;                 #查看test表数据
+end
+//                                      #结束定义语句
+call test();
+-->
+    <insert id="insertGoods" parameterType="com.zhang.goods_manage.pojo.GoodsList">
+        insert into goods_list (goods_id, goods_name, goods_type, goods_price, goods_stock)
+        values (#{goodsId}, #{goodsName}, #{goodsType}, #{goodsPrice}, #{goodsStock})
+    </insert>
+
+    <delete id="deleteGoods" parameterType="com.zhang.goods_manage.pojo.GoodsList">
+        delete
+        from goods_list
+        where id = #{id}
+    </delete>
+
+    <update id="updateGoodsById" parameterType="com.zhang.goods_manage.pojo.GoodsList">
+        update goods_list
+        set goods_id=#{goodsId},
+            goods_name=#{goodsName},
+            goods_type=#{goodsType},
+            goods_price=#{goodsPrice},
+            goods_stock=#{goodsStock}
+        where id = #{id}
+    </update>
+
+
+</mapper>

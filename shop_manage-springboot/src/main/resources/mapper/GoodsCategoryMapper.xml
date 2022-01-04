@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhang.goods_manage.mapper.GoodsCategoryMapper">
+
+    <resultMap id="GoodsCategory" type="com.zhang.goods_manage.pojo.GoodsCategory">
+        <result column="id" jdbcType="INTEGER" property="id"/>
+        <result column="category_level" jdbcType="VARCHAR" property="categoryLevel"/>
+        <result column="parent_id" jdbcType="VARCHAR" property="parentId"/>
+        <result column="category_name" jdbcType="VARCHAR" property="categoryName"/>
+    </resultMap>
+
+
+    <select id="getAllGoodsCategoryList" resultMap="GoodsCategory">
+        select * from goods_category
+    </select>
+
+
+    <resultMap id="GoodsCategoryLevel2" type="com.zhang.goods_manage.pojo.GoodsCategoryLevel2">
+        <result column="id" jdbcType="INTEGER" property="id"/>
+        <result column="category_name" jdbcType="VARCHAR" property="categoryName"/>
+    </resultMap>
+
+    <select id="getGoodsCategory2List" resultMap="GoodsCategoryLevel2">
+        select g2.id, g2.category_name from goods_category g1, goods_category g2
+        where g1.id = g2.parent_id
+    </select>
+
+
+    <insert id="insertGoodsCategoryLevel1" parameterType="com.zhang.goods_manage.pojo.GoodsCategory">
+        insert into goods_category (category_name)
+        values (#{categoryName})
+    </insert>
+    
+    <insert id="insertGoodsCategoryLevel2" parameterType="com.zhang.goods_manage.pojo.GoodsCategory">
+        insert into goods_category (category_level, parent_id, category_name)
+        values (2,#{parentId},#{categoryName})
+    </insert>
+
+    <delete id="deleteGoodsCategory" parameterType="com.zhang.goods_manage.pojo.GoodsCategory">
+        delete
+        from goods_category
+        where id = #{id}
+    </delete>
+
+    <update id="updateGoodsCategoryById" parameterType="com.zhang.goods_manage.pojo.GoodsCategory">
+        update goods_category
+        set category_name=#{categoryName}
+        where id = #{id}
+    </update>
+
+
+</mapper>
