@@ -46,3 +46,12 @@ export const updateGoodsList = (params) => {
     url: url
   })
 }
+
+export const getSelectConditionData = (params) => {
+  const url = baseApi.concat('/getSelectConditionData')
+  return axios.req({
+    method: 'post',
+    data: params,
+    url: url
+  })
+}

@@ -7,9 +7,32 @@
     >
       <el-option v-for="o in categoryData" :label="o.categoryName" :value="o.id"></el-option>
     </el-select>
+    <el-tag style="margin-left: 20px;">当前数量为 {{totalSize}}</el-tag>
     <br />
     <br />
     <el-button type="primary" size="small" @click="openDialog(-1)">增加</el-button>
+    <br />
+    <br />
+    <el-form :model="selectConditionModal">
+      <el-row>
+        <el-col :span="6">
+          <el-form-item label="商品编号">
+            <el-input v-model="selectConditionModal.goodsId"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="2"></el-col>
+        <el-col :span="6">
+          <el-form-item label="商品名称">
+            <el-input v-model="selectConditionModal.goodsName"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8"></el-col>
+        <el-col :span="2">
+          <el-button type="primary" @click="conditionSelect">查询</el-button>
+          <el-button @click="resetSelectCondition">重置</el-button>
+        </el-col>
+      </el-row>
+    </el-form>
   </el-card>
 
   <el-table :data="tableData" class="el_table">
@@ -35,26 +58,28 @@
       layout="prev, pager, next"
       :total="totalSize"
       :page-count="Math.ceil(totalSize / 10)"
-      @current-change="changePagination"
+      @current-change="paginationgetData"
     ></el-pagination>
   </div>
   <goods-dialog
     ref="goodsDialogRef"
     :opretionIndex="opretionIndex"
-    @refreshPage="changePagination(currentPage)"
+    @refreshPage="getData(currentPage, currentOpration)"
   ></goods-dialog>
 </template>
 
 <script lang="ts" setup>
 import { tableColumns } from './attr'
 import { ElMessage } from 'element-plus'
-import { defineAsyncComponent, onMounted, Ref, ref } from 'vue';
-import { getGoodsListById, deleteGoodsList } from '@/api/goodsList'
+import { defineAsyncComponent, onMounted, reactive, Ref, ref } from 'vue';
+import { getGoodsListById, deleteGoodsList, getSelectConditionData } from '@/api/goodsList'
 import { GoodsCategoryLevel2Api } from '@/api/goodsCategory';
 import { useRoute } from 'vue-router'
+import { AxiosResponse } from 'axios';
 
 const goodsDialog = defineAsyncComponent(() => import('./goodsDialog.vue'))
 const currentPage = ref(1)
+let currentOpration = ref(0)
 /**
  * 获取具体id
  */
@@ -62,7 +87,6 @@ type selectIdType = { id: string | number, label: string } | {}
 const selectId = ref<selectIdType>({})
 let route = useRoute()
 selectId.value = route.query
-
 type categoryData = {
   id: number,
   categoryName: string
@@ -83,7 +107,7 @@ const getCategoryData = async () => {
 
 const selectCategoryShop = (id: number | string) => {
   selectId.value.id = id
-  changePagination(currentPage.value)
+  getData(currentPage.value, currentOpration.value)
 }
 /**
  * 初始化列表中的数据
@@ -95,7 +119,7 @@ const tableData = ref([])
 // }
 
 onMounted(() => {
-  changePagination(currentPage.value)
+  getData(currentPage.value, 0)
   getCategoryData()
 })
 
@@ -122,23 +146,62 @@ const deleteData = async (id: number) => {
     message: '删除成功',
     type: 'success',
   })
-  changePagination(currentPage.value)
+  getData(currentPage.value, currentOpration.value)
 }
 
 /**
  * 分页操作
  */
 const totalSize = ref()
-const changePagination = async (page: number) => {
-  currentPage.value = page
-  const res = await getGoodsListById({ goodsType: selectCategoryId.value })
-  if (res.status === 200) {
-    tableData.value = res.data
-    totalSize.value = tableData.value.length
-    tableData.value = tableData.value.slice((page - 1) * 10, (page - 1) * 10 + 9)
+
+/**
+ * 筛选
+ */
+
+const selectConditionModal = reactive({
+  goodsId: '',
+  goodsName: '',
+  goodsType: selectCategoryId.value
+})
+
+const resetSelectCondition = () => {
+  selectConditionModal.goodsId = ''
+  selectConditionModal.goodsName = ''
+  currentOpration.value = 0
+  getData(currentPage.value, 0)
+}
+
+/**
+ * 获取数据
+ * 0 表示获取默认数据
+ * 1 表示获取筛选数据
+ */
+const getData = async (page: number, opeation: number) => {
+  selectConditionModal.goodsType = selectCategoryId.value
+  if (opeation === 0) {
+    getSpecificData(page, await getGoodsListById({ goodsType: selectCategoryId.value }))
+  }
+  if (opeation === 1) {
+    getSpecificData(page, await getSelectConditionData(selectConditionModal))
   }
 }
 
+const getSpecificData = (page: number, res: AxiosResponse<any, any>) => {
+  if (res.status === 200) {
+    totalSize.value = res.data.length
+    tableData.value = res.data.slice((page - 1) * 10, (page - 1) * 10 + 9)
+  }
+}
+
+const paginationgetData = (page: number) => {
+  currentPage.value = page
+  getData(page, currentOpration.value)
+}
+
+const conditionSelect = () => {
+  currentOpration.value = 1
+  getData(1, 1)
+}
 </script>
 
 <style scoped>
