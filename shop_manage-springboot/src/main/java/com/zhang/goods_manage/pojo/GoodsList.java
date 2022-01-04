@@ -65,4 +65,17 @@ public class GoodsList {
     public void setGoodsStock(int goodsStock) {
         this.goodsStock = goodsStock;
     }
+
+    @Override
+    public String toString() {
+        return "GoodsList{" +
+                "id=" + id +
+                ", goodsId=" + goodsId +
+                ", goodsName='" + goodsName + '\'' +
+                ", goodsType=" + goodsType +
+                ", categoryName='" + categoryName + '\'' +
+                ", goodsPrice=" + goodsPrice +
+                ", goodsStock=" + goodsStock +
+                '}';
+    }
 }

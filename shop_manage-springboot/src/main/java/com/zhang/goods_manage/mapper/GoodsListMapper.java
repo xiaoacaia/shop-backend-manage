@@ -12,6 +12,8 @@ public interface GoodsListMapper {
 
     List<GoodsList> getGoodsListById(GoodsList goodsList);
 
+    List<GoodsList> getSelectConditionData(GoodsList goodsList);
+
     void insertGoods(GoodsList GoodsList);
 
     void deleteGoods(GoodsList GoodsList);

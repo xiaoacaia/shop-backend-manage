@@ -22,6 +22,10 @@ public class GoodsListService {
         return goodsListMapper.getGoodsListById(goodsList);
     }
 
+    public List<GoodsList> getSelectConditionData(GoodsList goodsList) {
+        return goodsListMapper.getSelectConditionData(goodsList);
+    }
+
     public void insertGoods(GoodsList GoodsList) {
         goodsListMapper.insertGoods(GoodsList);
     }

@@ -28,6 +28,13 @@ public class GoodsListController {
         return goodsListService.getGoodsListById(GoodsList);
     }
 
+    @RequestMapping(value = "/getSelectConditionData", method = RequestMethod.POST)
+    @ResponseBody
+    public List<GoodsList> getSelectConditionData(@RequestBody GoodsList goodsList){
+        System.out.println(goodsList);
+        return goodsListService.getSelectConditionData(goodsList);
+    }
+
 
     @RequestMapping(value = "/insertGoods", method = RequestMethod.POST)
     @ResponseBody
