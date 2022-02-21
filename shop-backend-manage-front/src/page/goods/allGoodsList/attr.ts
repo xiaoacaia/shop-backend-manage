@@ -1,3 +1,4 @@
+import { FormItemRule } from "element-plus/es/components/form/src/form.type"
 import { reactive, ref } from "vue"
 
 /**
@@ -22,7 +23,7 @@ export const tableColumns: Array<tableColumnsType> = [
  */
 type operationType = {
   operate: string
-  prop: "goodsId" | "goodsName" | "categoryName" | "goodsPrice" | "goodsStock"
+  prop: "goodsId" | "goodsName" | "categoryName" | "goodsPrice" | "goodsStock" | "goodsType"
   label: string
   type?: string
   width?: string
@@ -48,7 +49,7 @@ export const formRules: Partial<Record<string, FormItemRule | FormItemRule[]>> |
     { required: true, message: '请输入商品名称', trigger: 'blur' },
   ],
   goodsType: [
-    { required: true, message: '请选择商品类型', trigger: 'blur' }
+    { required: true, message: '请选择商品类型', trigger: 'change' }
   ],
   goodsPrice: [
     { required: true, message: '请输入单价', trigger: 'blur' },

@@ -47,7 +47,7 @@ export const formRules: Partial<Record<string, FormItemRule | FormItemRule[]>> |
     { required: true, message: '请输入商品名称', trigger: 'blur' },
   ],
   goodsType: [
-    { required: true, message: '请选择商品类型', trigger: 'blur' }
+    { required: true, message: '请选择商品类型', trigger: 'change' }
   ],
   goodsPrice: [
     { required: true, message: '请输入单价', trigger: 'blur' },

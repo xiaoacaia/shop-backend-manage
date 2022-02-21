@@ -6,6 +6,7 @@ import router from './router/index.js'
 
 import App from './App.vue'
 
+console.log(ElementPlus);
 
 const app = createApp(App)
 
