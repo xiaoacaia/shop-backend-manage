@@ -7,7 +7,7 @@ const UserManagerRouter: Array<RouteRecordRaw> = [
       title: '登陆系统',
       show: false
     },
-    component: () => import('_c/Login')
+    component: () => import('_c/Login.vue')
   }
 ]
 export default UserManagerRouter

@@ -20,7 +20,7 @@ export const GoodsCategoryLevel2Api = () => {
   })
 }
 
-export const insertGoodsCategoryLevel1Api = (params) => {
+export const insertGoodsCategoryLevel1Api = (params: any) => {
   const url = baseApi.concat('/insertGoodsCategoryLevel1')
   return axios.req({
     method: 'post',
@@ -29,7 +29,7 @@ export const insertGoodsCategoryLevel1Api = (params) => {
   })
 }
 
-export const insertGoodsCategoryLevel2Api = (params) => {
+export const insertGoodsCategoryLevel2Api = (params: any) => {
   const url = baseApi.concat('/insertGoodsCategoryLevel2')
   return axios.req({
     method: 'post',
@@ -38,7 +38,7 @@ export const insertGoodsCategoryLevel2Api = (params) => {
   })
 }
 
-export const deleteGoodsCategoryApi = (params) => {
+export const deleteGoodsCategoryApi = (params: any) => {
   const url = baseApi.concat('/deleteGoodsCategory')
   return axios.req({
     method: 'post',
@@ -47,7 +47,7 @@ export const deleteGoodsCategoryApi = (params) => {
   })
 }
 
-export const updateGoodsCategoryByIdApi = (params) => {
+export const updateGoodsCategoryByIdApi = (params: any) => {
   const url = baseApi.concat('/updateGoodsCategoryById')
   return axios.req({
     method: 'post',

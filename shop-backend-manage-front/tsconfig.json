@@ -11,11 +11,12 @@
     "esModuleInterop": true,
     "lib": ["esnext", "dom"],
     "types": ["node", "element-plus/global"],
-    "baseUrl": ".",
+    "baseUrl": "./",
     "paths": {
-      "@/*": ["src/*"],
-      "_c/*": ["src/page/*"]
+        "@/*": ["src/*"],
+        "_c/*": ["src/page/*"]
     }
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"]
+  "include": ["src/**/*"]
+  // "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"]
 }

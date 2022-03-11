@@ -48,7 +48,7 @@ import { useRouter } from 'vue-router';
 import Header from './subContent/Header.vue'
 import Footer from './subContent/Footer.vue'
 
-const defaultOpen = ["1", "2"]
+const defaultOpen = ["1", "2", "3"]
 
 const router = useRouter()
 const allRoute = router.options.routes

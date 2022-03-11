@@ -1,65 +1,3 @@
-<template>
-  <el-card>
-    <el-button type="primary" size="small" @click="openDialog(-1)">增加</el-button>
-    <br />
-    <br />
-    <el-form :model="selectConditionModal">
-      <el-row>
-        <el-col :span="6">
-          <el-form-item label="商品编号">
-            <el-input v-model="selectConditionModal.goodsId"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="2"></el-col>
-        <el-col :span="6">
-          <el-form-item label="商品名称">
-            <el-input v-model="selectConditionModal.goodsName"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8"></el-col>
-        <el-col :span="2">
-          <el-button type="primary" @click="conditionSelect">查询</el-button>
-          <el-button @click="resetSelectCondition">重置</el-button>
-        </el-col>
-      </el-row>
-    </el-form>
-  </el-card>
-
-  <el-table :data="tableData" class="el_table">
-    <!-- <el-table-column type="selection" width="55" /> -->
-    <el-table-column
-      v-for="col in tableColumns"
-      :property="col.prop"
-      :label="col.label"
-      :width="col.width"
-      align:string="center"
-      show-overflow-tooltip
-    ></el-table-column>
-    <el-table-column label="操作">
-      <template #default="scope">
-        <el-button size="mini" type="primary" @click="openDialog(scope.$index, scope.row)">编辑</el-button>
-        <el-button size="mini" type="danger" @click="deleteData(scope.row.id)">删除</el-button>
-      </template>
-    </el-table-column>
-  </el-table>
-  <div class="el_pagination">
-    <el-pagination
-      :page-sizes="[5, 10, 20, 50, 100]"
-      background
-      layout="sizes, prev, pager, next"
-      :total="totalSize"
-      :page-count="Math.ceil(totalSize / currentPageSize)"
-      @current-change="paginationgetData"
-      @size-change="handleSizeChange"
-    ></el-pagination>
-  </div>
-  <goods-dialog
-    ref="goodsDialogRef"
-    :opretionIndex="opretionIndex"
-    @refreshPage="getData(currentPage, currentOpration)"
-  ></goods-dialog>
-</template>
-
 <script lang="ts" setup>
 import { tableColumns } from './attr'
 import { ElMessage } from 'element-plus'
@@ -164,6 +102,69 @@ const conditionSelect = () => {
 }
 
 </script>
+
+<template>
+  <el-card>
+    <el-button type="primary" size="small" @click="openDialog(-1)">增加</el-button>
+    <br />
+    <br />
+    <el-form :model="selectConditionModal">
+      <el-row>
+        <el-col :span="6">
+          <el-form-item label="商品编号">
+            <el-input v-model="selectConditionModal.goodsId"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="2"></el-col>
+        <el-col :span="6">
+          <el-form-item label="商品名称">
+            <el-input v-model="selectConditionModal.goodsName"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8"></el-col>
+        <el-col :span="2">
+          <el-button type="primary" @click="conditionSelect">查询</el-button>
+          <el-button @click="resetSelectCondition">重置</el-button>
+        </el-col>
+      </el-row>
+    </el-form>
+  </el-card>
+
+  <el-table :data="tableData" class="el_table">
+    <!-- <el-table-column type="selection" width="55" /> -->
+    <el-table-column
+      v-for="col in tableColumns"
+      :property="col.prop"
+      :label="col.label"
+      :width="col.width"
+      align:string="center"
+      show-overflow-tooltip
+    ></el-table-column>
+    <el-table-column label="操作">
+      <template #default="scope">
+        <el-button size="mini" type="primary" @click="openDialog(scope.$index, scope.row)">编辑</el-button>
+        <el-button size="mini" type="danger" @click="deleteData(scope.row.id)">删除</el-button>
+      </template>
+    </el-table-column>
+  </el-table>
+  <div class="el_pagination">
+    <el-pagination
+      :page-sizes="[5, 10, 20, 50, 100]"
+      background
+      layout="sizes, prev, pager, next"
+      :total="totalSize"
+      :page-count="Math.ceil(totalSize / currentPageSize)"
+      @current-change="paginationgetData"
+      @size-change="handleSizeChange"
+    ></el-pagination>
+  </div>
+  <goods-dialog
+    ref="goodsDialogRef"
+    :opretionIndex="opretionIndex"
+    @refreshPage="getData(currentPage, currentOpration)"
+  ></goods-dialog>
+</template>
+
 
 <style scoped>
 .el_table {

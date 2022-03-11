@@ -4,9 +4,9 @@ const goodsManage: Array<RouteRecordRaw> = [
     path: '/',
     name: 'index',
     meta: {
-      title: '分类管理'
+      title: '分类'
     },
-    component: () => import('_c/Index'),
+    component: () => import('_c/Index/Index.vue'),
     children: [
       {
         path: '/goods_categories',
@@ -14,17 +14,17 @@ const goodsManage: Array<RouteRecordRaw> = [
         meta: {
           title: '商品分类'
         },
-        component: () => import('_c/cateogory/goodsCategory')
+        component: () => import('_c/cateogory/goodsCategory/index.vue')
       }
     ]
   },
   {
-    path: '/goods',
+    path: '/',
     name: 'goodsIndex',
     meta: {
-      title: '商品管理'
+      title: '商品'
     },
-    component: () => import('_c/Index'),
+    component: () => import('_c/Index/Index.vue'),
     children: [
       {
         path: '/all_goods_list',
@@ -32,7 +32,7 @@ const goodsManage: Array<RouteRecordRaw> = [
         meta: {
           title: '所有商品'
         },
-        component: () => import('_c/goods/allGoodsList')
+        component: () => import('_c/goods/allGoodsList/index.vue')
       },
       {
         path: '/detail_goods_list',
@@ -40,16 +40,8 @@ const goodsManage: Array<RouteRecordRaw> = [
         meta: {
           title: '分类商品'
         },
-        component: () => import('_c/goods/detailGoodsList')
-      },
-      // {
-      //   path: '/test',
-      //   name: 'test',
-      //   meta: {
-      //     title: 'tqweest'
-      //   },
-      //   component: () => import('_c/test')
-      // },
+        component: () => import('_c/goods/detailGoodsList/index.vue')
+      }
     ]
   },
 ]

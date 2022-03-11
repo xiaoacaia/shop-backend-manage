@@ -1,25 +1,11 @@
 <script lang="ts" setup>
-import { operation, formRules } from './attr'
 import { computed, onMounted, Ref, ref, watch } from 'vue';
-import { ElMessage } from 'element-plus'
-import { insertGoodsList, updateGoodsList } from '@/api/goodsList'
 import { GoodsCategoryLevel2Api } from '@/api/goodsCategory';
+import { operation, formRules } from './attr'
+import { ElMessage } from 'element-plus'
+import { getAllOrder, insertOrder, updateOrder, deleteOrder } from '@/api/order'
 
-
-/**
- * 初始化数据
- */
-const props = defineProps({
-  opretionIndex: {
-    type: Number,
-    required: true
-  }
-})
-
-const showTitle = computed(() => {
-  const afterTitle = '商品'
-  return (props.opretionIndex === -1 ? '添加' : '编辑') + afterTitle
-})
+const dialogVisible = ref(false);
 
 /**
  * 定义用于提交的 formModel 
@@ -28,48 +14,16 @@ const showTitle = computed(() => {
 let formModel = ref<{ [t: string]: any }>({})
 watch(formModel, () => { })
 
-/**
- * 点击提交操作
- * props.operationIndex 为 1 为创建操作, 否则为删除操作
- */
-const dialogVisible = ref(false);
-
-const refreshPage = defineEmits(["refreshPage"]);
-
-const formRef: Ref = ref(null)
-// props.opretionIndex 为 1 为创建操作, 否则为删除操作
-const dialogConfirm = () => {
-  formRef.value.validate(async (valid: Boolean) => {
-    if (valid) {
-      if (props.opretionIndex === -1) {
-        await insertGoodsList(formModel.value)
-        ElMessage({
-          message: '添加成功',
-          type: 'success',
-        })
-      } else {
-        delete formModel.value.categoryName
-        await updateGoodsList(formModel.value)
-        ElMessage({
-          message: '修改成功',
-          type: 'success',
-        })
-      }
-      refreshPage('refreshPage')
-      formRef.value.resetFields()
-      dialogVisible.value = false
-    }
-  })
-}
-
-/**
- * 得到分类数据
- */
+const showTitle = computed(() => {
+  const afterTitle = '订单'
+  return (props.opretionIndex === -1 ? '添加' : '编辑') + afterTitle
+})
 
 type categoryType = {
   categoryName: string,
   id: number
 }
+
 const categoryData = ref<Array<categoryType>>([])
 
 const getCategoryData = async () => {
@@ -83,12 +37,46 @@ onMounted(() => {
   getCategoryData()
 })
 
-defineExpose({ dialogVisible, formModel })
+const props = defineProps({
+  opretionIndex: {
+    type: Number,
+    required: true
+  }
+})
 
+const refreshPage = defineEmits(["refreshPage"]);
+
+const formRef: Ref = ref(null)
+const dialogConfirm = () => {
+  formRef.value.validate(async (valid: Boolean) => {
+    if (valid) {
+      if (props.opretionIndex === -1) {
+        await insertOrder(formModel.value)
+        ElMessage({
+          message: '添加成功',
+          type: 'success',
+        })
+      } else {
+        delete formModel.value.categoryName
+        await updateOrder(formModel.value)
+        ElMessage({
+          message: '修改成功',
+          type: 'success',
+        })
+      }
+      refreshPage('refreshPage')
+      formRef.value.resetFields()
+      dialogVisible.value = false
+    }
+  })
+}
+
+
+defineExpose({ dialogVisible, formModel })
 </script>
 
 <template>
-  <el-dialog v-model="dialogVisible" :title="showTitle" width="30%">
+  <el-dialog v-model="dialogVisible" width="30%" :title="showTitle">
     <el-form :model="formModel" :rules="formRules" ref="formRef" label-width="100px">
       <el-form-item v-for="option in operation" :label="option.label" :prop="option.prop">
         <template v-if="option.operate === 'input'">
@@ -104,6 +92,15 @@ defineExpose({ dialogVisible, formModel })
             <el-option v-for="o in categoryData" :label="o.categoryName" :value="o.id"></el-option>
           </el-select>
         </template>
+        <template v-if="option.operate === 'date'">
+          <el-date-picker
+            style="width:100%"
+            v-model="formModel[option.prop]"
+            type="date"
+            placeholder="请选择创建时间"
+            value-format="YYYY-MM-DD"
+          ></el-date-picker>
+        </template>
       </el-form-item>
     </el-form>
     <template #footer>
@@ -114,4 +111,3 @@ defineExpose({ dialogVisible, formModel })
     </template>
   </el-dialog>
 </template>
-

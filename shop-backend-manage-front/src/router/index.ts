@@ -2,7 +2,7 @@ import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 
 // constantModules
 const constantFiles = import.meta.glob('./constantModules/*.ts')
-let constantModules: Array<RouteRecordRaw> = []
+let constantModules: any[] = []
 for (const path in constantFiles) {
   await constantFiles[path]().then((mod) => {
     constantModules = constantModules.concat(mod.default)
@@ -11,7 +11,7 @@ for (const path in constantFiles) {
 
 // dynamicModules
 const dynamicFiles = import.meta.glob('./dynamicModules/*.ts')
-let dynamicModules: Array<RouteRecordRaw> = []
+let dynamicModules: any[] = []
 for (const path in dynamicFiles) {
   await dynamicFiles[path]().then((mod) => {
     dynamicModules = dynamicModules.concat(mod.default)
