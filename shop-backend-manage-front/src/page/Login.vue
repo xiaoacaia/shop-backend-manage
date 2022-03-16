@@ -53,6 +53,39 @@ const submitForm = async () => {
     });
   }
 };
+
+/**
+ * 
+const validatePass = (rule, value, callback) => {
+  if (value === '') {
+    callback(new Error('密码不能为空'))
+  } else if (ruleForm.username !== 'wx' || ruleForm.password !== '123') {
+    callback(new Error("账号或密码错误， 请重新输入"))
+  } else {
+    callback()
+  }
+}
+
+const rules = {
+  username: [
+    { required: true, message: "账户不能为空", trigger: "blur" },
+  ],
+  password: [
+    { required: true, validator: validatePass, trigger: 'blur' }
+  ],
+}
+
+
+const submitForm = async () => {
+    console.log(ruleForm)
+    loginForm.value.validate((valid) => {
+      if (valid) {
+        window.localStorage.setItem("have_login", JSON.stringify(`${ruleForm.username}=${ruleForm.password}`));
+        window.location.href = "/#content";
+      }
+    });
+};
+ */
 </script>
 
 <style scoped>

@@ -105,7 +105,7 @@ defineExpose({ dialogVisible, formModel })
     </el-form>
     <template #footer>
       <span class="dialog-footer">
-        <el-button @click="dialogVisible = false;formRef.resetFields()">取消</el-button>
+        <el-button @click="dialogVisible = false; formRef.resetFields()">取消</el-button>
         <el-button type="primary" @click="dialogConfirm">确定</el-button>
       </span>
     </template>

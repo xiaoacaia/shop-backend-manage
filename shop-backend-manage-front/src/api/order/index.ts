@@ -3,10 +3,11 @@ import Api from '@/api/base/api-config'
 
 const baseApi = Api.goodsBack.order
 
-export const getAllOrder = () => {
+export const getAllOrder = (params) => {
   const url = baseApi.concat('/getAllOrder')
   return axios.req({
-    method: 'get',
+    method: 'post',
+    data: params,
     url: url
   })
 }

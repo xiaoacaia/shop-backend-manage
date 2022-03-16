@@ -15,10 +15,10 @@ public class OrderController {
     @Autowired
     OrderMapper orderMapper;
 
-    @RequestMapping(value = "/getAllOrder", method = RequestMethod.GET)
+    @RequestMapping(value = "/getAllOrder", method = RequestMethod.POST)
     @ResponseBody
-    public List<Order> getAllGoodsList(){
-        return orderMapper.getAllOrder();
+    public List<Order> getAllGoodsList(@RequestBody Order order){
+        return orderMapper.getAllOrder(order);
     }
 
     @RequestMapping(value = "/insertOrder", method = RequestMethod.POST)

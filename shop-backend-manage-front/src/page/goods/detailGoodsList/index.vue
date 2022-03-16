@@ -26,8 +26,8 @@
             <el-input v-model="selectConditionModal.goodsName"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8"></el-col>
-        <el-col :span="2">
+        <el-col :span="6"></el-col>
+        <el-col :span="4">
           <el-button type="primary" @click="conditionSelect">查询</el-button>
           <el-button @click="resetSelectCondition">重置</el-button>
         </el-col>

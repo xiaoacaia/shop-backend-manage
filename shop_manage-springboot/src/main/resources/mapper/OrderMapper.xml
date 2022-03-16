@@ -10,8 +10,9 @@
         <result column="create_time" property="createTime"/>
     </resultMap>
 
-    <select id="getAllOrder" resultMap="Order">
+    <select id="getAllOrder" resultMap="Order" parameterType="com.zhang.goods_manage.pojo.Order">
         select o.*, g.goods_name from all_order o, goods_list g where o.goods_id = g.goods_id
+                                                                  and o.order_id like CONCAT(#{orderId},'%')
     </select>
 
     <insert id="insertOrder" parameterType="com.zhang.goods_manage.pojo.Order">
