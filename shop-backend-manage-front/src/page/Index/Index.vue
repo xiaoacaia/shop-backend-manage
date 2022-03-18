@@ -11,7 +11,7 @@
         :default-openeds="defaultOpen"
         :default-active="$route.path"
       >
-        <template v-for="(menu, index) in allRoute">
+        <template v-for="(menu, index) in allRouteSrc">
           <el-sub-menu v-if="menu.children" :index="index.toString()">
             <template #title>
               <span style="font-weight: bold;">{{ menu.meta!.title }}</span>
@@ -51,7 +51,7 @@ import Footer from './subContent/Footer.vue'
 const defaultOpen = ["1", "2", "3"]
 
 const router = useRouter()
-const allRoute = router.options.routes
+const allRouteSrc = router.options.routes
 
 </script>
 
