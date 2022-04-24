@@ -14,7 +14,6 @@ public class OrderController {
     
     @Autowired
     OrderMapper orderMapper;
-
     @RequestMapping(value = "/getAllOrder", method = RequestMethod.POST)
     @ResponseBody
     public List<Order> getAllGoodsList(@RequestBody Order order){

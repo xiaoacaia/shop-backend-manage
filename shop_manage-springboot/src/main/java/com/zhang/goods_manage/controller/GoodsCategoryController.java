@@ -51,5 +51,4 @@ public class GoodsCategoryController {
     public void updateGoodsCategoryById(@RequestBody GoodsCategory goodsCategory){
         goodsCategoryService.updateGoodsCategoryById(goodsCategory);
     }
-
 }

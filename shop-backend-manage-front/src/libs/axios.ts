@@ -1,20 +1,16 @@
-import axios from 'axios'
-
+import axios, { AxiosRequestConfig } from 'axios'
 class HttpRequest {
-
-  getInsideConfig () {
+  getInsideConfig() {
     const config = {
-        headers: {}
+      headers: {}
     }
     return config
-}
-
-  req(options) {
+  }
+  req(options: AxiosRequestConfig<any>) {
     const instance = axios.create()
     options = Object.assign(this.getInsideConfig(), options)
     // this.interceptors(instance, options.url)
     return instance(options)
   }
 }
-
 export default new HttpRequest()

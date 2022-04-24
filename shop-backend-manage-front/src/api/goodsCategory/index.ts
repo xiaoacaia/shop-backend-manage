@@ -1,9 +1,6 @@
 import axios from '@/libs/axios'
 import Api from '@/api/base/api-config'
-
-
 const baseApi = Api.goodsBack.goodsCategory
-
 export const getAllGoodsCategoryListApi = () => {
   const url = baseApi.concat('/getAllGoodsCategoryList')
   return axios.req({

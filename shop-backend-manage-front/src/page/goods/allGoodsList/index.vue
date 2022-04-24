@@ -100,7 +100,6 @@ const conditionSelect = () => {
   currentOpration.value = 1
   getData(1, 1)
 }
-
 </script>
 
 <template>
