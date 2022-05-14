@@ -4,6 +4,7 @@ import { ElMessage } from 'element-plus'
 import { defineAsyncComponent, onMounted, reactive, Ref, ref } from 'vue';
 import { getAllGoodsList, deleteGoodsList, getSelectConditionData } from '@/api/goodsList'
 import { AxiosResponse } from 'axios';
+const orderDialogs = defineAsyncComponent(() => import('../../order/orderDialogs.vue'))
 
 const goodsDialog = defineAsyncComponent(() => import('./goodsDialog.vue'))
 const currentPage = ref(1)
@@ -100,6 +101,16 @@ const conditionSelect = () => {
   currentOpration.value = 1
   getData(1, 1)
 }
+
+
+const orderDialogsRef: Ref = ref(null)
+const addOrder = (goodsId: any) => {
+  orderDialogsRef.value.dialogVisible = !orderDialogsRef.value.dialogVisible
+  orderDialogsRef.value.formModel = JSON.parse(JSON.stringify({
+    goodsId: goodsId
+  }))
+}
+
 </script>
 
 <template>
@@ -131,37 +142,29 @@ const conditionSelect = () => {
 
   <el-table :data="tableData" class="el_table">
     <!-- <el-table-column type="selection" width="55" /> -->
-    <el-table-column
-      v-for="col in tableColumns"
-      :property="col.prop"
-      :label="col.label"
-      :width="col.width"
-      align:string="center"
-      show-overflow-tooltip
-    ></el-table-column>
-    <el-table-column label="操作">
+    <el-table-column v-for="col in tableColumns" :property="col.prop" :label="col.label" :width="col.width"
+      align:string="center" show-overflow-tooltip></el-table-column>
+    <el-table-column label="操作" :width="300">
       <template #default="scope">
         <el-button size="mini" type="primary" @click="openDialog(scope.$index, scope.row)">编辑</el-button>
-        <el-button size="mini" type="danger" @click="deleteData(scope.row.id)">删除</el-button>
+        <el-popconfirm title="确定要删除吗?" @confirm="deleteData(scope.row.id)">
+          <template #reference>
+            <el-button size="mini" type="danger">删除</el-button>
+          </template>
+        </el-popconfirm>
+        <el-button size="mini" type="primary" @click="addOrder(scope.row.goodsId)">添加订单</el-button>
       </template>
     </el-table-column>
   </el-table>
   <div class="el_pagination">
-    <el-pagination
-      :page-sizes="[5, 10, 20, 50, 100]"
-      background
-      layout="sizes, prev, pager, next"
-      :total="totalSize"
-      :page-count="Math.ceil(totalSize / currentPageSize)"
-      @current-change="paginationgetData"
-      @size-change="handleSizeChange"
-    ></el-pagination>
+    <el-pagination :page-sizes="[5, 10, 20, 50, 100]" background layout="sizes, prev, pager, next" :total="totalSize"
+      :page-count="Math.ceil(totalSize / currentPageSize)" @current-change="paginationgetData"
+      @size-change="handleSizeChange"></el-pagination>
   </div>
-  <goods-dialog
-    ref="goodsDialogRef"
-    :opretionIndex="opretionIndex"
-    @refreshPage="getData(currentPage, currentOpration)"
-  ></goods-dialog>
+  <goods-dialog ref="goodsDialogRef" :opretionIndex="opretionIndex"
+    @refreshPage="getData(currentPage, currentOpration)"></goods-dialog>
+  <order-dialogs ref="orderDialogsRef" :opretionIndex="-1">
+  </order-dialogs>
 </template>
 
 

@@ -1,75 +1,3 @@
-<template>
-  <el-card>
-    <el-select
-      v-model="selectCategoryId"
-      placeholder="请选择所想展示的商品类别"
-      @change="selectCategoryShop(selectCategoryId)"
-    >
-      <el-option v-for="o in categoryData" :label="o.categoryName" :value="o.id"></el-option>
-    </el-select>
-    <el-tag style="margin-left: 20px;">当前数量为 {{totalSize}}</el-tag>
-    <br />
-    <br />
-    <el-button type="primary" size="small" @click="openDialog(-1)">增加</el-button>
-    <br />
-    <br />
-    <el-form :model="selectConditionModal">
-      <el-row>
-        <el-col :span="6">
-          <el-form-item label="商品编号">
-            <el-input v-model="selectConditionModal.goodsId"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="2"></el-col>
-        <el-col :span="6">
-          <el-form-item label="商品名称">
-            <el-input v-model="selectConditionModal.goodsName"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="6"></el-col>
-        <el-col :span="4">
-          <el-button type="primary" @click="conditionSelect">查询</el-button>
-          <el-button @click="resetSelectCondition">重置</el-button>
-        </el-col>
-      </el-row>
-    </el-form>
-  </el-card>
-
-  <el-table :data="tableData" class="el_table">
-    <!-- <el-table-column type="selection" width="55" /> -->
-    <el-table-column
-      v-for="col in tableColumns"
-      :property="col.prop"
-      :label="col.label"
-      :width="col.width"
-      align:string="center"
-      show-overflow-tooltip
-    ></el-table-column>
-    <el-table-column label="操作">
-      <template #default="scope">
-        <el-button size="mini" type="primary" @click="openDialog(scope.$index, scope.row)">编辑</el-button>
-        <el-button size="mini" type="danger" @click="deleteData(scope.row.id)">删除</el-button>
-      </template>
-    </el-table-column>
-  </el-table>
-  <div class="el_pagination">
-    <el-pagination
-    :page-sizes="[5, 10, 20, 50, 100]"
-      background
-      layout="sizes, prev, pager, next"
-      :total="totalSize"
-      :page-count="Math.ceil(totalSize / currentPageSize)"
-      @current-change="paginationgetData"
-      @size-change="handleSizeChange"
-    ></el-pagination>
-  </div>
-  <goods-dialog
-    ref="goodsDialogRef"
-    :opretionIndex="opretionIndex"
-    @refreshPage="getData(currentPage, currentOpration)"
-  ></goods-dialog>
-</template>
-
 <script lang="ts" setup>
 import { tableColumns } from './attr'
 import { ElMessage } from 'element-plus'
@@ -78,6 +6,7 @@ import { getGoodsListById, deleteGoodsList, getSelectConditionData } from '@/api
 import { GoodsCategoryLevel2Api } from '@/api/goodsCategory';
 import { useRoute } from 'vue-router'
 import { AxiosResponse } from 'axios';
+const orderDialogs = defineAsyncComponent(() => import('../../order/orderDialogs.vue'))
 
 const goodsDialog = defineAsyncComponent(() => import('./goodsDialog.vue'))
 const currentPage = ref(1)
@@ -85,8 +14,8 @@ let currentOpration = ref(0)
 /**
  * 获取具体id
  */
-type selectIdType = { id: string | number, label: string } | {}
-const selectId = ref<selectIdType>({})
+// type selectIdType = { id: string | number, label: string } | {}
+const selectId = ref<any>({})
 let route = useRoute()
 selectId.value = route.query
 type categoryData = {
@@ -95,7 +24,7 @@ type categoryData = {
 }
 const categoryData = ref<Array<categoryData>>([])
 
-let queryId = route.query.id
+let queryId: any = route.query.id
 
 const getRouteId = queryId ? parseInt(queryId) : ''
 
@@ -210,7 +139,77 @@ const conditionSelect = () => {
   currentOpration.value = 1
   getData(1, 1)
 }
+
+
+const orderDialogsRef: Ref = ref(null)
+const addOrder = (goodsId: any) => {
+  orderDialogsRef.value.dialogVisible = !orderDialogsRef.value.dialogVisible
+  orderDialogsRef.value.formModel = JSON.parse(JSON.stringify({
+    goodsId: goodsId
+  }))
+}
 </script>
+
+<template>
+  <el-card>
+    <el-select v-model="selectCategoryId" placeholder="请选择所想展示的商品类别" @change="selectCategoryShop(selectCategoryId)">
+      <el-option v-for="o in categoryData" :label="o.categoryName" :value="o.id"></el-option>
+    </el-select>
+    <el-tag style="margin-left: 20px;">当前数量为 {{ totalSize }}</el-tag>
+    <br />
+    <br />
+    <el-button type="primary" size="small" @click="openDialog(-1)">增加</el-button>
+    <br />
+    <br />
+    <el-form :model="selectConditionModal">
+      <el-row>
+        <el-col :span="6">
+          <el-form-item label="商品编号">
+            <el-input v-model="selectConditionModal.goodsId"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="2"></el-col>
+        <el-col :span="6">
+          <el-form-item label="商品名称">
+            <el-input v-model="selectConditionModal.goodsName"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6"></el-col>
+        <el-col :span="4">
+          <el-button type="primary" @click="conditionSelect">查询</el-button>
+          <el-button @click="resetSelectCondition">重置</el-button>
+        </el-col>
+      </el-row>
+    </el-form>
+  </el-card>
+
+  <el-table :data="tableData" class="el_table">
+    <!-- <el-table-column type="selection" width="55" /> -->
+    <el-table-column v-for="col in tableColumns" :property="col.prop" :label="col.label" :width="col.width"
+      align:string="center" show-overflow-tooltip></el-table-column>
+    <el-table-column label="操作" :width="300">
+      <template #default="scope">
+        <el-button size="mini" type="primary" @click="openDialog(scope.$index, scope.row)">编辑</el-button>
+        <el-popconfirm title="确定要删除吗?" @confirm="deleteData(scope.row.id)">
+          <template #reference>
+            <el-button size="mini" type="danger">删除</el-button>
+          </template>
+        </el-popconfirm>
+        <el-button size="mini" type="primary" @click="addOrder(scope.row.goodsId)">添加订单</el-button>
+      </template>
+    </el-table-column>
+  </el-table>
+  <div class="el_pagination">
+    <el-pagination :page-sizes="[5, 10, 20, 50, 100]" background layout="sizes, prev, pager, next" :total="totalSize"
+      :page-count="Math.ceil(totalSize / currentPageSize)" @current-change="paginationgetData"
+      @size-change="handleSizeChange"></el-pagination>
+  </div>
+  <goods-dialog ref="goodsDialogRef" :opretionIndex="opretionIndex"
+    @refreshPage="getData(currentPage, currentOpration)"></goods-dialog>
+  <order-dialogs ref="orderDialogsRef" :opretionIndex="-1">
+  </order-dialogs>
+</template>
+
 
 <style scoped>
 .el_table {

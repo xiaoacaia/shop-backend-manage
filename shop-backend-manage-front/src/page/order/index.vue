@@ -78,7 +78,7 @@ const selectOrder = async () => {
   }
 }
 
-const resetOrder = async() => {
+const resetOrder = async () => {
   orderId.value = ''
   const res = await getAllOrder({ orderId: '' })
   if (res.status === 200) {
@@ -106,13 +106,8 @@ const resetOrder = async() => {
     </el-row>
   </el-card>
   <el-table :data="tableData" class="el_table">
-    <el-table-column
-      v-for="col in tableColumns"
-      :property="col.prop"
-      :label="col.label"
-      align:string="center"
-      show-overflow-tooltip
-    ></el-table-column>
+    <el-table-column v-for="col in tableColumns" :property="col.prop" :label="col.label" align:string="center"
+      show-overflow-tooltip></el-table-column>
     <el-table-column label="操作">
       <template #default="scope">
         <el-button size="mini" type="primary" @click="openDialog(scope.$index, scope.row)">编辑</el-button>
@@ -121,22 +116,13 @@ const resetOrder = async() => {
     </el-table-column>
   </el-table>
   <div class="el_pagination">
-    <el-pagination
-      :page-sizes="[5, 10, 20, 50, 100]"
-      background
-      layout="sizes, prev, pager, next"
-      :total="totalSize"
-      :page-count="Math.ceil(totalSize / currentPageSize)"
-      @current-change="paginationgetData"
-      @size-change="handleSizeChange"
-    ></el-pagination>
+    <el-pagination :page-sizes="[5, 10, 20, 50, 100]" background layout="sizes, prev, pager, next" :total="totalSize"
+      :page-count="Math.ceil(totalSize / currentPageSize)" @current-change="paginationgetData"
+      @size-change="handleSizeChange"></el-pagination>
   </div>
 
-  <order-dialogs
-    ref="orderDialogsRef"
-    :opretionIndex="opretionIndex"
-    @refreshPage="getData(currentPage)"
-  ></order-dialogs>
+  <order-dialogs ref="orderDialogsRef" :opretionIndex="opretionIndex" @refreshPage="getData(currentPage)">
+  </order-dialogs>
 </template>
 
 <style scoped>

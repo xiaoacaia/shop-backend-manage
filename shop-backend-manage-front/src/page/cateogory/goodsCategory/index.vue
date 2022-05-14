@@ -10,13 +10,14 @@
             <span class="custom-tree-node">
               <span>{{ node.label }}</span>
               <span v-if="!data.children">
-                <el-button
-                  size="mini"
-                  style="margin-right: 20px;"
-                  @click="clickJumpToSpecific(data.id, node.label)"
-                >跳转</el-button>
+                <el-button size="mini" style="margin-right: 20px;" @click="clickJumpToSpecific(data.id, node.label)">跳转
+                </el-button>
                 <el-button size="mini" style="margin-right: 20px;" @click="openDialog(2, data)">编辑</el-button>
-                <el-button size="mini" style="margin-right: 300px;" @click="deleteData(data.id)">删除</el-button>
+                <el-popconfirm title="确定要删除吗?" @confirm="deleteData(data.id)">
+                  <template #reference>
+                     <el-button size="mini" style="margin-right: 300px;">删除</el-button>
+                  </template>
+                </el-popconfirm>
               </span>
             </span>
           </template>
@@ -27,7 +28,11 @@
       <template #default="scope">
         <el-button size="mini" type="primary" @click="openDialog(-2, scope.row[0])">添加</el-button>
         <el-button size="mini" type="primary" @click="openDialog(1, scope.row[0])">编辑</el-button>
-        <el-button size="mini" type="danger" @click="deleteData(scope.row[0].id)">删除</el-button>
+        <el-popconfirm title="确定要删除吗?" @confirm="deleteData(scope.row[0].id)">
+          <template #reference>
+            <el-button size="mini" type="danger">删除</el-button>
+          </template>
+        </el-popconfirm>
       </template>
     </el-table-column>
   </el-table>
