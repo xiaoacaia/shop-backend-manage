@@ -72,5 +72,9 @@ call test();
         where id = #{id}
     </update>
 
+    <update id="updateGoodsStockByid">
+        update goods_list set goods_stock=goods_stock-1 where id=#{id}
+    </update>
+
 
 </mapper>

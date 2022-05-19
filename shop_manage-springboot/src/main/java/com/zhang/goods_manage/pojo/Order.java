@@ -1,6 +1,27 @@
 package com.zhang.goods_manage.pojo;
 
 public class Order {
+    @Override
+    public String toString() {
+        return "Order{" +
+                "gId=" + gId +
+                ", id=" + id +
+                ", goodsId=" + goodsId +
+                ", orderId='" + orderId + '\'' +
+                ", createTime='" + createTime + '\'' +
+                ", goodsName='" + goodsName + '\'' +
+                '}';
+    }
+
+    private int gId;
+
+    public int getgId() {
+        return gId;
+    }
+
+    public void setgId(int gId) {
+        this.gId = gId;
+    }
 
     private int id;
     private int goodsId;

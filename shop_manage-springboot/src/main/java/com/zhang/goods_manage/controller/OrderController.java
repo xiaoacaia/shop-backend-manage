@@ -1,5 +1,6 @@
 package com.zhang.goods_manage.controller;
 
+import com.zhang.goods_manage.mapper.GoodsListMapper;
 import com.zhang.goods_manage.mapper.OrderMapper;
 import com.zhang.goods_manage.pojo.GoodsList;
 import com.zhang.goods_manage.pojo.Order;
@@ -14,6 +15,8 @@ public class OrderController {
     
     @Autowired
     OrderMapper orderMapper;
+    @Autowired
+    GoodsListMapper goodsListMapper;
     @RequestMapping(value = "/getAllOrder", method = RequestMethod.POST)
     @ResponseBody
     public List<Order> getAllGoodsList(@RequestBody Order order){
@@ -23,6 +26,8 @@ public class OrderController {
     @RequestMapping(value = "/insertOrder", method = RequestMethod.POST)
     @ResponseBody
     public void insertOrder(@RequestBody Order order){
+        goodsListMapper.updateGoodsStockByid(order.getgId());
+        System.out.println(order.toString());
         orderMapper.insertOrder(order);
     }
 

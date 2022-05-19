@@ -108,6 +108,7 @@ const resetSelectCondition = () => {
  * 1 表示获取筛选数据
  */
 const getData = async (page: number, opeation: number) => {
+  console.log('yesss@@@')
   selectConditionModal.goodsType = selectCategoryId.value
   if (opeation === 0) {
     getSpecificData(page, await getGoodsListById({ goodsType: selectCategoryId.value }))
@@ -142,10 +143,18 @@ const conditionSelect = () => {
 
 
 const orderDialogsRef: Ref = ref(null)
-const addOrder = (goodsId: any) => {
+const addOrder = (row: any) => {
+  if (row.goodsStock <= 0) {
+    ElMessage({
+      message: '库存不足，无法添加',
+      type: 'error',
+    })
+    return
+  }
   orderDialogsRef.value.dialogVisible = !orderDialogsRef.value.dialogVisible
   orderDialogsRef.value.formModel = JSON.parse(JSON.stringify({
-    goodsId: goodsId
+    gId: row.id,
+    goodsId: row.goodsId
   }))
 }
 </script>
@@ -195,7 +204,7 @@ const addOrder = (goodsId: any) => {
             <el-button size="mini" type="danger">删除</el-button>
           </template>
         </el-popconfirm>
-        <el-button size="mini" type="primary" @click="addOrder(scope.row.goodsId)">添加订单</el-button>
+        <el-button size="mini" type="primary" @click="addOrder(scope.row)">添加订单</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -205,9 +214,9 @@ const addOrder = (goodsId: any) => {
       @size-change="handleSizeChange"></el-pagination>
   </div>
   <goods-dialog ref="goodsDialogRef" :opretionIndex="opretionIndex"
-    @refreshPage="getData(currentPage, currentOpration)"></goods-dialog>
-  <order-dialogs ref="orderDialogsRef" :opretionIndex="-1">
-  </order-dialogs>
+    @refreshPage="getData(currentPage, currentOpration)" />
+
+  <order-dialogs ref="orderDialogsRef" :opretionIndex="-1" @refreshPage="getData(currentPage, currentOpration)" />
 </template>
 
 

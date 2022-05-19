@@ -104,10 +104,18 @@ const conditionSelect = () => {
 
 
 const orderDialogsRef: Ref = ref(null)
-const addOrder = (goodsId: any) => {
+const addOrder = (row: any) => {
+  if (row.goodsStock <= 0) {
+    ElMessage({
+      message: '库存不足，无法添加',
+      type: 'error',
+    })
+    return
+  }
   orderDialogsRef.value.dialogVisible = !orderDialogsRef.value.dialogVisible
   orderDialogsRef.value.formModel = JSON.parse(JSON.stringify({
-    goodsId: goodsId
+    gId: row.id,
+    goodsId: row.goodsId
   }))
 }
 
@@ -152,7 +160,7 @@ const addOrder = (goodsId: any) => {
             <el-button size="mini" type="danger">删除</el-button>
           </template>
         </el-popconfirm>
-        <el-button size="mini" type="primary" @click="addOrder(scope.row.goodsId)">添加订单</el-button>
+        <el-button size="mini" type="primary" @click="addOrder(scope.row)">添加订单</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -163,7 +171,7 @@ const addOrder = (goodsId: any) => {
   </div>
   <goods-dialog ref="goodsDialogRef" :opretionIndex="opretionIndex"
     @refreshPage="getData(currentPage, currentOpration)"></goods-dialog>
-  <order-dialogs ref="orderDialogsRef" :opretionIndex="-1">
+  <order-dialogs ref="orderDialogsRef" :opretionIndex="-1" @refreshPage="getData(currentPage, currentOpration)">
   </order-dialogs>
 </template>
 
