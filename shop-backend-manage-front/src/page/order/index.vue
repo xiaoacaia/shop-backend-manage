@@ -91,9 +91,9 @@ const resetOrder = async () => {
 
 <template>
   <el-card>
-    <el-button type="primary" size="small" @click="openDialog(-1)">增加</el-button>
-    <br />
-    <br />
+    <!-- <el-button type="primary" size="small" @click="openDialog(-1)">增加</el-button> -->
+    <!-- <br /> -->
+    <!-- <br /> -->
     <el-row>
       <el-col :span="6">
         <el-input v-model="orderId"></el-input>

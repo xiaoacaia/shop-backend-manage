@@ -8,9 +8,9 @@
         <el-tree :data="scope.row" default-expand-all>
           <template #default="{ node, data }">
             <span class="custom-tree-node">
-              <span>{{ node.label }}</span>
-              <span v-if="!data.children">
-                <el-button size="mini" style="margin-right: 20px;" @click="clickJumpToSpecific(data.id, node.label)">跳转
+              <span style="margin-top: 10px;min-width: 60px;">{{ node.label }}</span>
+              <span v-if="!data.children" style="margin-top: 10px;margin-left: 20px;">
+                <el-button size="mini" style="margin-right: 20px;margin-left: 20px;" @click="clickJumpToSpecific(data.id, node.label)">跳转
                 </el-button>
                 <el-button size="mini" style="margin-right: 20px;" @click="openDialog(2, data)">编辑</el-button>
                 <el-popconfirm title="确定要删除吗?" @confirm="deleteData(data.id)">
