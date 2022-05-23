@@ -135,19 +135,17 @@ export const getAllGoodsCategoryListApi = () => {
 
 ### 界面展示
 
-商品分类管理
-
 ![image-20220316202649338](README.assets/image-20220316202649338.png)
 
-可进行一级分类, 二级分类的添加
+#### 商品分类界面
 
-![image-20220316202658098](README.assets/image-20220316202658098.png)
+![image-20220523201022278](README.assets/image-20220523201022278.png)
 
-可以修改每页表格中所展示数据的多少
+#### 具体分类商品界面
 
-![image-20220316202722095](README.assets/image-20220316202722095.png)
+![image-20220523201111857](README.assets/image-20220523201111857.png)
 
-进行表单操作的时候, 会进行校验, 校验成功, 才允许发送请求
+表单校验
 
 ![image-20220316202739308](README.assets/image-20220316202739308.png)
 
@@ -155,11 +153,7 @@ export const getAllGoodsCategoryListApi = () => {
 
 ![image-20220316202755428](README.assets/image-20220316202755428.png)
 
-根据上方的下拉框, 显示属于选中类别的所有商品
-
-![image-20220316202803870](README.assets/image-20220316202803870.png)
-
-可添加订单
+#### 订单界面
 
 ![image-20220316202823200](README.assets/image-20220316202823200.png)
 

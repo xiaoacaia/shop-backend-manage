@@ -108,7 +108,6 @@ const resetSelectCondition = () => {
  * 1 表示获取筛选数据
  */
 const getData = async (page: number, opeation: number) => {
-  console.log('yesss@@@')
   selectConditionModal.goodsType = selectCategoryId.value
   if (opeation === 0) {
     getSpecificData(page, await getGoodsListById({ goodsType: selectCategoryId.value }))
